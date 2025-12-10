@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/user")
-//@CrossOrigin(origins = {"http://localhost:3000"}, allowCredentials = "true")
+@CrossOrigin(origins = {"http://localhost:3000"}, allowCredentials = "true")
 public class UserController {
     private static final String LOGIN_USER = "LOGIN_USER";
 
@@ -20,7 +20,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/list")
-    public ResultResponse<List<UserEntity>> register() {
+    public ResultResponse<List<UserEntity>> list() {
         List<UserEntity> users = userService.list();
         ResultResponse<List<UserEntity>> response = new ResultResponse<>();
         response.setData(users);
