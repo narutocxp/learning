@@ -1,0 +1,26 @@
+version: '3'
+services:
+  web-service1:
+    container_name: web-service1
+    build: # 服务的 Docker 构建文件位置
+      context: ./web-service1
+      dockerfile: Dockerfile
+    ports:
+      - "8101:8101"
+    networks:
+      - mynetwork
+
+  web-service2:
+    container_name: web-service2
+    build: # 服务的 Docker 构建文件位置
+      context: ./web-service2
+      dockerfile: Dockerfile
+    ports:
+      - "8102:8102"
+    networks:
+      - mynetwork
+    depends_on:
+      - web-service1
+# 网络，不定义的话就是默认网络
+networks:
+  mynetwork:

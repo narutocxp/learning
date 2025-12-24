@@ -1,9 +1,9 @@
 package com.shopping.modules.user.controller;
 
+import com.shopping.api.modules.user.vo.UserVo;
 import com.shopping.core.ResultResponse;
 import com.shopping.modules.user.entity.UserEntity;
-import com.shopping.modules.user.service.UserService;
-import com.shopping.modules.user.vo.UserVo;
+import com.shopping.modules.user.service.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,11 +17,11 @@ public class UserController {
     private static final String LOGIN_USER = "LOGIN_USER";
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userServiceImpl;
 
     @GetMapping("/list")
     public ResultResponse<List<UserEntity>> list() {
-        List<UserEntity> users = userService.list();
+        List<UserEntity> users = userServiceImpl.list();
         ResultResponse<List<UserEntity>> response = new ResultResponse<>();
         response.setData(users);
         return response;
@@ -29,7 +29,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResultResponse<UserEntity> getUserById(@PathVariable Long id) {
-        UserEntity user = userService.getById(id);
+        UserEntity user = userServiceImpl.getById(id);
         ResultResponse<UserEntity> response = new ResultResponse<>();
         response.setData(user);
         return response;
@@ -37,12 +37,12 @@ public class UserController {
 
     @PostMapping("/register")
     public ResultResponse<Boolean> register(@RequestBody UserVo userVo) {
-        return ResultResponse.success(userService.save(userVo));
+        return ResultResponse.success(userServiceImpl.save(userVo));
     }
 
     @PostMapping("/login")
     public ResultResponse<UserVo> login(@RequestBody UserVo userVo, HttpServletRequest request) {
-        UserVo byAccount = userService.findByAccount(userVo.getUserAccount());
+        UserVo byAccount = userServiceImpl.findByAccount(userVo.getUserAccount());
         if (byAccount == null) {
             return ResultResponse.success(null);
         }
@@ -52,7 +52,7 @@ public class UserController {
 
     @GetMapping("/search")
     public ResultResponse<List<UserVo>> search(String userAccount) {
-        return ResultResponse.success(userService.findList(userAccount));
+        return ResultResponse.success(userServiceImpl.findList(userAccount));
     }
 
     @GetMapping("/current")
@@ -70,7 +70,7 @@ public class UserController {
     @GetMapping("/delete")
     public ResultResponse<Boolean> deleteUser(@RequestParam("id") Long id) {
         ResultResponse<Boolean> response = new ResultResponse<>();
-        response.setData(userService.removeById(id));
+        response.setData(userServiceImpl.removeById(id));
         return response;
     }
 }
