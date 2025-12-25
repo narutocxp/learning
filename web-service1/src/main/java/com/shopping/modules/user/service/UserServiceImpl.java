@@ -25,7 +25,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         return save(user);
     }
 
-    @DubboService
     @Override
     public UserVo findByAccount(@Param("userAccount") String userAccount) {
         List<UserEntity> dataList = baseMapper.findByAccount(userAccount);
