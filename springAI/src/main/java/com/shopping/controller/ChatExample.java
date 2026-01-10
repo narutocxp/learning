@@ -1,7 +1,10 @@
 package com.shopping.controller;
 
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.model.ChatModel;
+import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +17,10 @@ import reactor.core.publisher.Flux;
 public class ChatExample {
     @Autowired
     private ChatClient chatClient;
+
+    @Autowired
+    @Qualifier("ollamaChatModel")
+    private ChatModel ollamaChatModel;
 
 
     @GetMapping("/simple")
@@ -38,5 +45,10 @@ public class ChatExample {
                 .user(message)
                 .stream()
                 .content();
+    }
+
+    @GetMapping(value = "/chatOllama", produces = "text/html;charset=UTF-8")
+    public String charOllama(@RequestParam String message) {
+        return ollamaChatModel.call(new Prompt(message)).getResult().getOutput().getText();
     }
 }

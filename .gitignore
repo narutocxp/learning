@@ -47,3 +47,4 @@ build/
 !.mysql
 /.mysql-data/**
 /.nacos-data/**
+.idea/misc.xml
